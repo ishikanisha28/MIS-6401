@@ -104,7 +104,9 @@ add.constraint(lpoddual ,c(0,0,1,0,0,15,0,1,0,0,-900,-750), ">=", 360)
 add.constraint(lpoddual ,c(1,0,0,12,0,0,0,0,1,900,0,450), ">=", 300)
 add.constraint(lpoddual ,c(0,1,0,0,12,0,0,0,1,-750,450,0), ">=", 300)
 add.constraint(lpoddual ,c(0,0,1,0,0,12,0,0,1,0,-900,-750), ">=", 300)
+'''
 
+'''{r}
 solve(lpoddual)                     
 get.objective(lpoddual)           
 get.variables(lpoddual)
