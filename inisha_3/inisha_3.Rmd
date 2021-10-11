@@ -1,1 +1,91 @@
+---
+title: "assignment 3 QMM"
+author: "ISHIKA NISHA"
+date: "10/11/2021"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Installing library
+``{r}
+library(lpSolveAPI)
+```
+#Setting the work directory
+
+setwd("~/Desktop/SEMESTER 1")
+
+# Creating a linear programming object with 0 constraints and 9 decision variables
+```{r}
+lpmod<- make.lp(0, 9)
+lpmod
+```
+#create objective function
+```{r}
+set.objfn(lpmod, c(420, 360, 300, 420, 360, 300, 420, 360, 300))
+```
+###  maximize profit
+```{r}
+lp.control(lpmod,sense='max')
+```
+# Adding the constraints
+```{r}
+add.constraint(lpmod, c(1, 1, 1, 0, 0, 0, 0, 0, 0), "<=", 750)
+add.constraint(lpmod, c(0, 0, 0, 1, 1, 1, 0, 0, 0), "<=", 900)
+add.constraint(lpmod, c(0, 0, 0, 0, 0, 0,1, 1, 1), "<=", 450)
+add.constraint(lpmod, c(20, 15, 12, 0, 0, 0, 0, 0, 0), "<=", 13000)
+add.constraint(lpmod, c(0, 0, 0, 20, 15, 12, 0, 0, 0), "<=", 12000)
+add.constraint(lpmod, c(0, 0, 0, 0, 0, 0, 20, 15, 12), "<=", 5000)
+add.constraint(lpmod, c(1, 1, 1, 0, 0, 0, 0, 0, 0), "<=", 900)
+add.constraint(lpmod, c(0, 0, 0, 1, 1, 1, 0, 0, 0), "<=", 12000)
+add.constraint(lpmod, c(0, 0, 0, 0, 0, 0, 1, 1, 1), "<=", 750)
+add.constraint(lpmod, c(6, 6, 6, -5, -5, -5, 0, 0, 0), "=", 0)
+add.constraint(lpmod, c( 3, 3, 3, 0, 0, 0, -5, -5, -5), "=", 0)
+```
+```{r}
+set.bounds(lpmod, lower = c(0, 0, 0, 0, 0, 0, 0, 0, 0), columns = c(1, 2,3,4,5,6,7,8,9))
+```
+# Identify the variables and constraints
+```{r}
+RowsNames <- c("CCN1", "CCN2", "CCN3", "SCN1", "SCN2", "SCN3", "S1CN1", "S1CN2", "S1CN3", "%C1", "%C2")
+ColumnsNames <- c("Large1", "Medium1", "Small1", "Large2", "Medium2", "Small2", "Large3", "Medium3", "Small3")
+dimnames(lpmod) <- list(RowsNames, ColumnsNames)
+```
+
+lpmod
+
+```{r}
+solve(lpmod)
+```
+
+```{r}
+get.objective(lpmod)
+get.variables(lpmod)
+get.constraints(lpmod)
+get.sensitivity.rhs(lpmod)
+get.sensitivity.obj(lpmod)
+```
+
+
+ 
