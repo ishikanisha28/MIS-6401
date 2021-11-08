@@ -1,0 +1,130 @@
+---
+title: "QMM5"
+author: "ISHIKA NISHA"
+date: "11/8/2021"
+output: html_document
+---
+
+
+
+```{r}
+library(lpSolveAPI)
+library(Benchmarking)
+```
+
+```{r}
+DM1 <-  read.lp("dm1.lp")
+DM2 <- read.lp("dm2.lp")
+DM3 <- read.lp("dm3.lp")
+DM4 <- read.lp("dm4.lp")
+DM5 <- read.lp("dm5.lp")
+DM6 <- read.lp("dM6.lp")
+```
+
+ #values of DM1,DM2,DM3,DM4,DM5,DM6,DM7
+ 
+```{r}
+solve(DM1)
+get.objective(DM1)
+get.variables(DM1)
+
+solve(DM2)
+get.objective(DM2)
+get.variables(DM2)
+
+solve(DM3)
+get.objective(DM3)
+get.variables(DM3)
+
+solve(DM4)
+get.objective(DM4)
+get.variables(DM4)
+
+solve(DM5)
+get.objective(DM5)
+get.variables(DM5)
+
+solve(DM6)
+get.objective(DM6)
+get.variables(DM6)
+
+```
+
+```{r}
+A <- matrix(c(150,400,320,520,350,320,200,700,1200,2000,1200,700),ncol = 2)
+B <- matrix(c(14000,14000,42000,28000,19000,14000,3500,21000,10500,42000,25000,15000),ncol = 2)
+colnames(A) <- c("Staff Hours perDay","Supplies perDay")
+colnames(B) <- c("Reimbursed Patient-Days","Privately Paid Patient Days")
+
+A
+B
+```
+
+#A&B) Formulation and performance of DEA analysis under all DEA assumptions of FDH, CRS, VRS,IRS, DRS, and FRH along with the Peers and Lambdas under each of the above assumptions.
+
+
+```{r}
+Analysis.fdh <- dea(A,B,RTS = "fdh")  
+Analysis.fdh
+peers(Analysis.fdh)
+lambda(Analysis.fdh)
+
+Analysis.crs <- dea(A,B,RTS = "crs")  
+Analysis.crs
+peers(Analysis.crs)
+lambda(Analysis.crs)
+
+Analysis.vrs <- dea(A,B,RTS = "vrs")  
+Analysis.vrs
+peers(Analysis.vrs)
+lambda(Analysis.vrs)
+
+
+Analysis.irs <- dea(A,B,RTS = "irs")
+Analysis.irs 
+peers(Analysis.irs)
+lambda(Analysis.irs)
+
+Analysis.drs <- dea(A,B,RTS = "drs")
+Analysis.drs
+peers(Analysis.drs)
+lambda(Analysis.drs)
+
+Analysis.frh <- dea(A,B,RTS = "add")
+Analysis.frh
+peers(Analysis.frh)
+lambda(Analysis.frh)
+
+```
+
+
+
+#D Compare and contrast the above results 
+
+ 
+dea.plot(A,B,RTS="fdh", main= ("FDH Graph"))
+dea.plot(A,B,RTS="crs", main= ("CRS Graph"))
+dea.plot(A,B,RTS="vrs", main= ("VRS Graph"))
+dea.plot(A,B,RTS="irs",  main= ("IRS Graph"))
+dea.plot(A,B,RTS="drs", main= ("DRS Graph"))
+dea.plot(A,B,RTS="add", main=("FRH Graph"))
+
+ FDH- All DMs(1,2,3,4,5,6) are effective.
+
+ CRS- DM 1,2,3,and 4 are 100% effective.While, DM5 is 97% effective, and DM6 is   only 86% effective.
+ PEERS- The peer value for DM5 are 1,2,and 4,and DM6 are 1,2,and 4.
+ LAMBDA- The lambda value for DM6 IS 0.20, 0.08,and o.53 and for DM6 is 0.34,      0.39,and 0.13 
+
+ VRS- DMs (1,2,3,4,5 )are 100% effective. DM 6 is 89% effective.
+ PEERS- The peer value for DM6 are 1,2,and 5.
+ LAMBDA- The lambda value for DM6 is 0.40, 0.34,and 0.25
+
+ IRS- DMs (1,2,3,4,5 )are 100% effective. DM 6 is 89% effective.
+ PEERS- The peer value for DM6 are 1,2,and 5.
+ LAMBDA- The lambda value for DM6 is 0.40, 0.34,and 0.25
+
+ DRS- DM 1,2,3,and 4 are 100% effective.While, DM5 is 97% effective, and DM6 is only 86% effective.
+ PEERS- The peer value for DM5 are 1,2,and 4,and DM6 are 1,2,and 4.
+ LAMBDA- The lambda value for DM6 IS 0.20, 0.08,and o.53 and for DM6 is 0.34, 0.39,and 0.13 
+
+ FRH- All DMs(1,2,3,4,5,6) are effective.
